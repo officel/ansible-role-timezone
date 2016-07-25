@@ -1,0 +1,6 @@
+---
+# tasks file for ansible-role-timezone
+
+- include: setup-centos6.yml
+  when: ( ansible_os_family == 'RedHat' or ansible_distribution == 'CentOS' )
+

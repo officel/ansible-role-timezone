@@ -14,7 +14,13 @@ none.
 Role Variables
 --------------
 
-none.
+zonename are...
+
+     # CentOS 6
+     $ ls /usr/share/zoneinfo/
+
+     # CentOS 7
+     $ timedatectl list-timezones
 
 Dependencies
 ------------

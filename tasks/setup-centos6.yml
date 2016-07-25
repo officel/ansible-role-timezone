@@ -30,6 +30,7 @@
     regexp="^ZONE"
     line='ZONE="{{ zonename | default('Asia/Tokyo') }}"'
   register:     is_sysconfig_clock
+  when: ( ansible_distribution_major_version != "7" )
   changed_when: is_sysconfig_clock.changed is defined and is_sysconfig_clock.changed
   tags: [timezone]
 

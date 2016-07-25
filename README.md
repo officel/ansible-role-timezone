@@ -31,6 +31,7 @@ Example Playbook
 ----------------
 
     - hosts: all
+      become: yes
       roles:
          - officel.timezone
 

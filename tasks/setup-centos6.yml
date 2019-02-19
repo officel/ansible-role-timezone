@@ -1,6 +1,7 @@
 ---
 - name: check zoneinfo
   stat: path=/usr/share/zoneinfo/{{ zonename | default('Asia/Tokyo') }}
+  get_md5: true
   register: target_zoneinfo
   tags: [timezone]
 

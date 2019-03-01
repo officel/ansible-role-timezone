@@ -6,7 +6,7 @@
 
 - name: skip if zoneinfo is not found.
   fail: msg="{{ zonename | default('Asia/Tokyo')}} is not found"
-  when: target_zoneinfo.stat.md5 is not defined
+  when: target_zoneinfo.stat.exists != true
   tags: [timezone]
 
 - name: check localtime
@@ -20,7 +20,7 @@
     dest:  /etc/localtime
     state: link
     force: yes
-  when:         (target_zoneinfo.stat.md5 != target_localtime.stat.md5)
+  when:         (target_zoneinfo.stat.md5 is defined) and (target_localtime.stat.md5 is defined) and (target_zoneinfo.stat.md5 != target_localtime.stat.md5)
   changed_when: (target_zoneinfo.stat.md5 != target_localtime.stat.md5)
   tags: [timezone]
 

@@ -1,7 +1,6 @@
 ---
 - name: check zoneinfo
-  stat: path=/usr/share/zoneinfo/{{ zonename | default('Asia/Tokyo') }}
-  get_md5: true
+  stat: path=/usr/share/zoneinfo/{{ zonename | default('Asia/Tokyo') }} get_md5=true
   register: target_zoneinfo
   tags: [timezone]
 
@@ -11,8 +10,7 @@
   tags: [timezone]
 
 - name: check localtime
-  stat: path=/etc/localtime follow=yes
-  get_md5: true
+  stat: path=/etc/localtime follow=yes get_md5=true
   register: target_localtime
   tags: [timezone]
 

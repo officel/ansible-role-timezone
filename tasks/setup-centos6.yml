@@ -1,6 +1,6 @@
 ---
 - name: check zoneinfo
-  stat: path=/usr/share/zoneinfo/{{ zonename | default(default_zonename) }} get_md5=true
+  stat: path=/usr/share/zoneinfo/{{ zonename | default(default_zonename) }} get_checksum=true checksum_algorithm=md5
   register: target_zoneinfo
   tags: [timezone]
 
@@ -10,7 +10,7 @@
   tags: [timezone]
 
 - name: check localtime
-  stat: path=/etc/localtime follow=yes get_md5=true
+  stat: path=/etc/localtime follow=yes get_checksum=true checksum_algorithm=md5
   register: target_localtime
   tags: [timezone]
 
@@ -20,8 +20,8 @@
     dest:  /etc/localtime
     state: link
     force: yes
-  when:         (target_zoneinfo.stat.md5 is defined) and (target_localtime.stat.md5 is defined) and (target_zoneinfo.stat.md5 != target_localtime.stat.md5)
-  changed_when: (target_zoneinfo.stat.md5 != target_localtime.stat.md5)
+  when:         (target_zoneinfo.stat.checksum is defined) and (target_localtime.stat.checksum is defined) and (target_zoneinfo.stat.checksum != target_localtime.stat.checksum)
+  changed_when: (target_zoneinfo.stat.checksum != target_localtime.stat.checksum)
   tags: [timezone]
 
 - name: /etc/sysconfig/clock

@@ -1,11 +1,11 @@
 ---
 - name: check zoneinfo
-  stat: path=/usr/share/zoneinfo/{{ zonename | default('Asia/Tokyo') }} get_md5=true
+  stat: path=/usr/share/zoneinfo/{{ zonename | default(default_zonename) }} get_md5=true
   register: target_zoneinfo
   tags: [timezone]
 
 - name: skip if zoneinfo is not found.
-  fail: msg="{{ zonename | default('Asia/Tokyo')}} is not found"
+  fail: msg="{{ zonename | default(default_zonename)}} is not found"
   when: target_zoneinfo.stat.exists != true
   tags: [timezone]
 
@@ -16,7 +16,7 @@
 
 - name: symlink /etc/localtime
   file:
-    src:   /usr/share/zoneinfo/{{ zonename | default('Asia/Tokyo') }}
+    src:   /usr/share/zoneinfo/{{ zonename | default(default_zonename) }}
     dest:  /etc/localtime
     state: link
     force: yes
@@ -28,7 +28,7 @@
   lineinfile:
     dest=/etc/sysconfig/clock
     regexp="^ZONE"
-    line='ZONE="{{ zonename | default('Asia/Tokyo') }}"'
+    line='ZONE="{{ zonename | default(default_zonename) }}"'
   register:     is_sysconfig_clock
   when: ( ansible_distribution_major_version != "7" )
   changed_when: is_sysconfig_clock.changed is defined and is_sysconfig_clock.changed
